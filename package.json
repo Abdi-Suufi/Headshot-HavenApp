@@ -1,26 +1,53 @@
 {
-  "name": "headshot-haven",
+  "name": "headshot-haven-app",
+  "productName": "Headshot Haven",
+  "version": "1.0.0",
+  "description": "Headshot Haven desktop app: a free FPS aim trainer.",
+  "author": "Abdi Rahman Suufi",
+  "license": "ISC",
   "private": true,
-  "version": "0.0.1",
-  "type": "module",
+  "main": "electron/main.cjs",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "dev": "concurrently -k -n web,app -c cyan,yellow \"vite --port 5173 --strictPort\" \"wait-on tcp:5173 && electron . --dev\"",
+    "build": "vite build",
+    "start": "vite build && electron .",
+    "dist": "vite build && electron-builder --win",
+    "test": "vitest run"
   },
-  "dependencies": {
-    "@chakra-ui/react": "^2.8.2",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "framer-motion": "^11.0.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+  "build": {
+    "appId": "com.abdisuufi.headshothaven",
+    "productName": "Headshot Haven",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Headshot Haven"
+    }
   },
   "devDependencies": {
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "@vitejs/plugin-react": "^4.2.1",
-    "typescript": "^5.2.2",
-    "vite": "^5.1.0"
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^9.2.5",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.4",
+    "three": "^0.186.1",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "wait-on": "^9.5.1"
   }
-} 
+}
